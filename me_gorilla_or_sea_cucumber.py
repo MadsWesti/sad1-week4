@@ -29,6 +29,19 @@ def load_matrix():
     print matrix[0][4]
     print matrix[0][5]
 
+    matrix2 = {}
+    for i, a in enumerate(alphabet):
+        for values in data:
+            listed_values = values.split()
+            matrix2[a, listed_values[0]] = listed_values[i+1]
+    
+    print "matrix2 AA", matrix2['A','A']
+    print "matrix2 AR", matrix2['A','R']
+    print "matrix2 AN", matrix2['A','N']
+    print "matrix2 AD", matrix2['A','D']
+    print "matrix2 AC", matrix2['A','C']
+    print "matrix2 A*", matrix2['A','*']
+
 
 def parse_data():
     data = sys.stdin.read()
