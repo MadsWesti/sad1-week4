@@ -4,7 +4,7 @@ M = {}
 score_matrix = {}
 
 def load_matrix():
-    file_path = 'data/BLOSUM62.txt'
+    file_path = 'BLOSUM62.txt'
     file = open(file_path)
     data = file.readlines()[6:]
     file.close()
@@ -56,7 +56,6 @@ def alignment(X, Y):
 def get_max_tuple(A):
     max_value = max(x[2] for x in A)    
     return [x for x in A if x[2] == max_value][0]
- 
 
 def parse_data():
     pass
@@ -77,4 +76,3 @@ result = alignment(d,e)
 print str(result[2])
 print result[0]
 print result[1]
-
