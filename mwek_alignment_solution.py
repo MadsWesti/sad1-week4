@@ -1,10 +1,8 @@
 import sys
 import itertools
 
-score_matrix = {}
 
-
-def load_matrix():
+def parse_matrix():
     file_path = 'BLOSUM62.txt'
     input_file = open(file_path)
     data = input_file.readlines()[6:]
@@ -14,10 +12,12 @@ def load_matrix():
     alphabet = data[0].split()
     data = data[1:]
 
+    score_matrix = {}
     for i, a in enumerate(alphabet):
         for values in data:
             listed_values = values.split()
             score_matrix[a, listed_values[0]] = int(listed_values[i + 1])
+    return score_matrix
 
 
 def alignment(X, Y):
@@ -82,14 +82,13 @@ def parse_data():
     sequences.append((name, sequence))
     return sequences
 
-load_matrix()
+score_matrix = parse_matrix()
 data = parse_data()
 
 #loop through possible combinations of sequences - disregarding ordering
-for sequence_1, sequence_2 in itertools.combinations(data, 2):
+for ((s1_name, s1), (s2_name, s2)) in itertools.combinations(data, 2):
     M = {}
-    alignment_solution = alignment(sequence_1[1], sequence_2[1])
-    print sequence_1[0] + "--" + sequence_2[0] + ": " +\
-    str(alignment_solution[2])
-    print alignment_solution[0]
-    print alignment_solution[1]
+    solution = alignment(s1, s2)
+    print s1_name + "--" + s2_name + ": " + str(solution[2])
+    print solution[0]
+    print solution[1]
