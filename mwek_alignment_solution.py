@@ -1,4 +1,4 @@
-import sys
+import sys, itertools
 
 M = {}
 score_matrix = {}
@@ -58,21 +58,39 @@ def get_max_tuple(A):
     return [x for x in A if x[2] == max_value][0]
 
 def parse_data():
-    pass
-    #parse stuff
+    data = sys.stdin.read().splitlines()
+    
+    sequences = []
+    #sequences = {}
+    sequence = ""
+    name = ""
+    first_sequence = True
+    for d in data:
+        if d[0] == '>':
+            if not first_sequence:
+                sequences.append((name,sequence))
+                #sequences[name] = sequence
+            first_sequence = False
+            name = d.split()[0][1:]
+            sequence = ""
+        else:
+            sequence += d
+    sequences.append((name,sequence))
+    #sequences[name] = sequence
+    for s in sequences:
+        print s[1]
+    return sequences
 
 load_matrix()
-parse_data()
+data = parse_data()
+a = "MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH"
+b = "MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFKLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH"
 
-#hardcoded data
-a = "KQRK"
-b = "KAK"
-c = "KQRIKAAKABK"
-d = "MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH"
-e = "VHLTPVEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH"
-
-#print out
-result = alignment(d,e)
-print str(result[2])
-print result[0]
-print result[1]
+#print alignment(a,b)
+#loop through possible combinations of sequences - disregarding ordering
+for sequence_1,sequence_2 in itertools.combinations(data, 2):
+    alignment_solution = alignment(sequence_1[1],sequence_2[1])
+    print sequence_1[0]+"--"+sequence_2[0]+": "+str(alignment_solution[2])
+    print alignment_solution[0]
+    print alignment_solution[1]
+    
